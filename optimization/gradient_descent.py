@@ -21,9 +21,41 @@ class GradientDescent:
     #define loss function
     def _mse_loss(self, y, y_pred):
         return np.mean((y_pred - y) ** 2)
-    
+
+    #define fit function for updating parameters
     def fit(self, x, y): 
         n_samples, n_features = x.shape
-        self.weights = np.zeros(n_samples)
+
+        #initialize parameters
+        self.weights = np.zeros(n_features)
+        self.bias = 0.0
+
+        prev_loss = float("inf")
+
+        for _ in range(self.n_iter):
+
+            # predictions
+            y_pred = np.dot(x, self.weights) + self.bias
+
+            # compute loss
+            loss = self._mse_loss(y, y_pred)
+            self.loss_history.append(loss)
+
+            if abs(prev_loss - loss) < self.tolerance:
+                break
+
+            prev_loss = loss
+
+            # compute gradients
+            dw = (2 / n_samples) * np.dot(x.T, (y_pred - y))
+            db = (2 / n_samples) * np.sum(y_pred - y)
+
+            # update parameters
+            self.weights -= self.learning_rate * dw
+            self.bias -= self.learning_rate * db
+
+    #define predict function for make predictions
+    def predict(self, x):
+        return np.dot(x, self.weights) + self.bias
 
 
