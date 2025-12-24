@@ -11,11 +11,12 @@ import numpy as np
 
 #define a class gradient descent.
 class GradientDescent:
-    def __init__(self, learning_rate = 0.01, n_iter = 1000):
+    def __init__(self, learning_rate = 0.01, n_iter = 1000, tolerance = 1e-6):
         self.learning_rate = learning_rate
         self.n_iter = n_iter
         self.weights = None
         self.bias = None
+        self.tolerance = tolerance
         self.loss_history = []
 
     #define loss function
